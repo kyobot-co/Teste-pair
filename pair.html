@@ -3,716 +3,559 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Arslan-MD Sessions | Ultra Pro Max</title>
+  <title>Arslan-MD Ultra Pro Max Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --primary: linear-gradient(135deg, #FF4500, #228B22, #00CED1);
+      --secondary: linear-gradient(135deg, #FF1493, #8A2BE2);
+      --bg: #0a0a12;
+      --glass: rgba(255, 255, 255, 0.08);
+      --glass-dark: rgba(0, 0, 0, 0.4);
+      --text: #ffffff;
+      --muted: #a0a0c0;
+      --highlight: #00FFFF;
+      --highlight-glow: 0 0 20px rgba(0, 255, 255, 0.7);
+      --radius: 20px;
+      --blur: 15px;
+      --transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
-    :root {
-      --neon-cyan: #00ffcc;
-      --neon-pink: #ff2e63;
-      --neon-purple: #7209b7;
-      --neon-blue: #4361ee;
-      --dark-bg: #0a0a0a;
-      --card-bg: rgba(15, 15, 25, 0.8);
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
       font-family: 'Montserrat', sans-serif;
-      background: var(--dark-bg);
-      color: var(--neon-cyan);
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       position: relative;
       overflow-x: hidden;
+      color: var(--text);
+      background: var(--bg);
+      padding: 100px 20px 150px;
     }
 
-    /* Advanced Particle Background */
-    #particles-js {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-      background: radial-gradient(ellipse at center, #0a0a1a 0%, #000000 100%);
-    }
-
-    /* Animated Grid Overlay */
-    .cyber-grid {
+    /* Animated Background */
+    .animated-bg {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -1;
+      z-index: -3;
       background: 
-        linear-gradient(rgba(0, 255, 204, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 204, 0.03) 1px, transparent 1px);
-      background-size: 50px 50px;
-      animation: gridMove 40s linear infinite;
-      opacity: 0.5;
+        radial-gradient(circle at 20% 80%, rgba(255, 69, 0, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(34, 139, 34, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(0, 206, 209, 0.1) 0%, transparent 50%);
+      animation: bgPulse 15s ease-in-out infinite;
     }
 
-    @keyframes gridMove {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(-50px, -50px); }
+    @keyframes bgPulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 0.8; }
     }
 
-    /* 3D Profile Section */
-    .profile-section {
-      display: flex;
-      justify-content: center;
-      margin: 20px 0 40px;
-      position: relative;
-      z-index: 10;
-      perspective: 1000px;
-    }
-
-    .profile-container {
-      width: 200px;
-      height: 200px;
-      position: relative;
-      transform-style: preserve-3d;
-      animation: float3d 6s ease-in-out infinite;
-    }
-
-    .profile-image {
+    /* Particle Background */
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-      position: absolute;
-      box-shadow: 
-        0 0 30px var(--neon-cyan),
-        inset 0 0 30px rgba(0, 255, 204, 0.3);
-      border: 3px solid var(--neon-cyan);
-      transform: translateZ(20px);
-      animation: rotate3d 20s linear infinite;
+      z-index: -2;
     }
 
-    .profile-border {
-      position: absolute;
-      width: 110%;
-      height: 110%;
-      top: -5%;
-      left: -5%;
-      border-radius: 50%;
-      background: conic-gradient(
-        from 0deg,
-        var(--neon-pink),
-        var(--neon-purple),
-        var(--neon-blue),
-        var(--neon-cyan),
-        var(--neon-pink)
-      );
-      animation: rotate 4s linear infinite;
-      box-shadow: 0 0 40px rgba(255, 46, 99, 0.5);
-    }
-
-    .profile-border::before {
-      content: '';
-      position: absolute;
-      width: 94%;
-      height: 94%;
-      top: 3%;
-      left: 3%;
-      background: var(--dark-bg);
-      border-radius: 50%;
-      z-index: -1;
-    }
-
-    @keyframes float3d {
-      0%, 100% { transform: translateY(0) rotateX(5deg) rotateY(5deg); }
-      50% { transform: translateY(-20px) rotateX(-5deg) rotateY(-5deg); }
-    }
-
-    @keyframes rotate3d {
-      0% { transform: translateZ(20px) rotateY(0deg); }
-      100% { transform: translateZ(20px) rotateY(360deg); }
-    }
-
-    /* Container */
-    .container {
-      max-width: 1300px;
-      margin: 0 auto;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 50px;
-      position: relative;
-      z-index: 1;
-      margin-top: 80px;
-    }
-
-    /* Enhanced News Ticker */
-    .news-container {
+    /* Header with logo */
+    .header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      z-index: 1000;
-      font-family: 'Orbitron', sans-serif;
-      background: rgba(10, 10, 20, 0.9);
-      backdrop-filter: blur(10px);
-      border-bottom: 2px solid var(--neon-cyan);
-      box-shadow: 0 5px 30px rgba(0, 255, 204, 0.3);
-    }
-
-    .news-container .title {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 40%;
-      background: linear-gradient(90deg, var(--neon-pink), var(--neon-purple));
-      padding: 12px 24px;
-      color: #fff;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
-      z-index: 1001;
-      font-size: 1.1rem;
-      box-shadow: 0 0 20px rgba(255, 46, 99, 0.5);
-    }
-
-    .news-container .ticker {
-      width: 100%;
-      overflow: hidden;
-      margin-left: 40%;
-    }
-
-    .news-container ul {
       display: flex;
-      list-style: none;
-      margin: 0;
-      padding: 12px 0;
-      animation: scroll 25s infinite linear;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2.5rem;
+      background: var(--glass);
+      backdrop-filter: blur(var(--blur));
+      z-index: 100;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
     }
 
-    .news-container ul li {
-      white-space: nowrap;
-      padding: 0 30px;
-      color: var(--neon-cyan);
-      font-size: 1.1rem;
-      font-weight: 600;
-      text-shadow: 0 0 10px var(--neon-cyan);
-      position: relative;
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
     }
 
-    .news-container ul li::after {
-      content: "✦";
-      position: absolute;
-      top: 50%;
-      right: -5px;
-      transform: translateY(-50%);
-      color: var(--neon-pink);
-      text-shadow: 0 0 10px var(--neon-pink);
+    .logo-img {
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid transparent;
+      background: var(--primary);
+      padding: 2px;
+      box-shadow: var(--highlight-glow);
+      animation: logoSpin 10s linear infinite;
     }
 
-    @keyframes scroll {
-      from { transform: translateX(100%); }
-      to { transform: translateX(-100%); }
+    @keyframes logoSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
-    /* Hero Section */
-    .hero {
-      text-align: center;
-      padding: 60px 40px;
-      background: var(--card-bg);
-      border: 2px solid var(--neon-cyan);
-      border-radius: 20px;
-      box-shadow: 
-        0 0 40px rgba(0, 255, 204, 0.4),
-        inset 0 0 40px rgba(0, 255, 204, 0.1);
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(10px);
-      transform-style: preserve-3d;
-      transform: translateZ(0);
-      transition: all 0.5s ease;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        45deg,
-        transparent,
-        rgba(0, 255, 204, 0.1),
-        transparent
-      );
-      transform: rotate(45deg);
-      animation: shine 6s infinite;
-    }
-
-    .hero:hover {
-      transform: translateY(-10px) translateZ(10px);
-      box-shadow: 
-        0 15px 50px rgba(0, 255, 204, 0.6),
-        inset 0 0 50px rgba(0, 255, 204, 0.2);
-    }
-
-    .hero h1 {
+    .logo-text {
       font-family: 'Orbitron', sans-serif;
-      font-size: 3.5rem;
-      background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan));
+      font-size: 1.8rem;
+      font-weight: 900;
+      background: var(--primary);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 30px rgba(255, 46, 99, 0.5);
-      margin-bottom: 20px;
-      letter-spacing: 2px;
-      font-weight: 900;
+      text-shadow: 0 0 20px rgba(255, 69, 0, 0.5);
+      letter-spacing: 1px;
     }
 
-    .hero p {
-      font-size: 1.3rem;
-      color: var(--neon-cyan);
-      max-width: 700px;
-      margin: 0 auto;
-      line-height: 1.6;
-      text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
-    }
-
-    /* Features Section */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
-      width: 100%;
-    }
-
-    .feature-card {
-      background: var(--card-bg);
-      border: 2px solid var(--neon-cyan);
-      border-radius: 15px;
-      padding: 30px;
-      text-align: center;
-      transition: all 0.5s ease;
+    /* Battery indicator */
+    .battery-container {
+      background: var(--glass-dark);
+      border-radius: 50px;
+      padding: 0.7rem 1.5rem;
       display: flex;
-      flex-direction: column;
-      gap: 20px;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
       position: relative;
       overflow: hidden;
-      backdrop-filter: blur(10px);
-      transform-style: preserve-3d;
-      transform: translateZ(0);
     }
 
-    .feature-card::before {
+    .battery-container::before {
       content: '';
       position: absolute;
       top: 0;
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(0, 255, 204, 0.1),
-        transparent
-      );
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
       transition: left 0.7s ease;
     }
 
-    .feature-card:hover::before {
+    .battery-container:hover::before {
       left: 100%;
     }
 
-    .feature-card:hover {
-      transform: translateY(-15px) translateZ(20px) rotateX(5deg);
-      box-shadow: 
-        0 20px 40px rgba(0, 255, 204, 0.4),
-        inset 0 0 30px rgba(0, 255, 204, 0.1);
-      border-color: var(--neon-pink);
+    .battery-icon {
+      color: var(--highlight);
+      font-size: 1.5rem;
+      filter: drop-shadow(0 0 5px var(--highlight));
     }
 
-    .feature-card h3 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.8rem;
-      color: var(--neon-pink);
-      margin-bottom: 15px;
-      text-shadow: 0 0 15px rgba(255, 46, 99, 0.5);
-      font-weight: 700;
-    }
-
-    .feature-card p {
-      font-size: 1.1rem;
-      color: var(--neon-cyan);
-      flex-grow: 1;
-      line-height: 1.6;
-    }
-
-    .feature-card .btn {
+    /* Main container */
+    .main-content {
       width: 100%;
-      padding: 1.2em;
-      font-size: 1.1rem;
-      margin-top: auto;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      position: relative;
+      z-index: 1;
     }
 
-    /* About & Contact Sections */
-    .about, .contact {
-      background: var(--card-bg);
-      border: 2px solid var(--neon-cyan);
-      border-radius: 15px;
-      padding: 40px;
+    /* Pairing box */
+    .box {
+      background: var(--glass);
+      backdrop-filter: blur(var(--blur));
+      border-radius: var(--radius);
+      padding: 2.5rem;
       text-align: center;
-      width: 100%;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition);
       position: relative;
       overflow: hidden;
-      backdrop-filter: blur(10px);
-      transition: all 0.5s ease;
     }
 
-    .about:hover, .contact:hover {
-      transform: translateY(-10px);
-      box-shadow: 
-        0 15px 40px rgba(0, 255, 204, 0.4),
-        inset 0 0 40px rgba(0, 255, 204, 0.1);
-    }
-
-    .about h2, .contact h2 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.5rem;
-      background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 20px;
-      font-weight: 800;
-    }
-
-    .about p, .contact p {
-      font-size: 1.2rem;
-      color: var(--neon-cyan);
-      max-width: 900px;
-      margin: 0 auto;
-      line-height: 1.7;
-    }
-
-    /* Buttons */
-    .btn {
-      background: transparent;
-      border: 2px solid var(--neon-cyan);
-      border-radius: 12px;
-      cursor: pointer;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.2rem;
-      text-transform: uppercase;
-      color: var(--neon-cyan);
-      text-shadow: 0 0 10px var(--neon-cyan);
-      transition: all 0.4s ease;
-      position: relative;
-      overflow: hidden;
-      font-weight: 700;
-      letter-spacing: 1px;
-      padding: 1em 1.5em;
-    }
-
-    .btn::before, .btn::after {
+    .box::before {
       content: '';
       position: absolute;
       top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 255, 204, 0.4), transparent);
-      transition: all 0.6s ease;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--primary);
     }
 
-    .btn::after {
-      left: 100%;
-      transition-delay: 0.2s;
+    .box:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), var(--highlight-glow);
     }
 
-    .btn:hover::before {
-      left: 100%;
+    .box h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      background: var(--primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgba(255, 69, 0, 0.5);
+      letter-spacing: 1px;
     }
 
-    .btn:hover::after {
-      left: -100%;
+    .box h5 {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      font-weight: normal;
+      font-size: 1.1rem;
     }
 
-    .btn:hover {
-      background: rgba(0, 255, 204, 0.15);
-      box-shadow: 
-        0 0 25px rgba(0, 255, 204, 0.7),
-        inset 0 0 15px rgba(0, 255, 204, 0.2);
-      color: #fff;
-      border-color: #fff;
+    /* Input styling */
+    .input-container {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .input-container input {
+      flex: 1;
+      padding: 1.2rem;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: var(--glass-dark);
+      color: var(--text);
+      font-family: inherit;
+      transition: var(--transition);
+      font-size: 1.1rem;
+    }
+
+    .input-container input:focus {
+      outline: none;
+      border-color: var(--highlight);
+      box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.3);
+    }
+
+    .input-container button {
+      padding: 1.2rem 2rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .input-container button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), var(--highlight-glow);
+    }
+
+    /* Result display */
+    #pair-result {
+      margin-top: 1.8rem;
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      background: var(--glass-dark);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    #copy-code {
+      background: var(--glass);
+      border: 2px solid var(--highlight);
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+      font-weight: 700;
+      transition: var(--transition);
+      margin-top: 1.5rem;
+      display: none;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    }
+
+    #copy-code:hover {
+      background: rgba(0, 255, 255, 0.1);
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
       transform: translateY(-3px);
     }
 
-    .btn:active {
-      transform: scale(0.97);
-      filter: brightness(1.2);
-    }
-
-    /* Footer */
-    .footer {
-      margin-top: 60px;
-      padding: 30px;
-      background: var(--card-bg);
-      border: 2px solid var(--neon-cyan);
-      border-radius: 15px;
-      text-align: center;
-      color: var(--neon-cyan);
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1rem;
-      text-shadow: 0 0 10px var(--neon-cyan);
+    /* Music player */
+    .music-player {
       width: 100%;
-      backdrop-filter: blur(10px);
-    }
-
-    .footer b {
-      color: var(--neon-pink);
-      text-shadow: 0 0 10px rgba(255, 46, 99, 0.5);
-    }
-
-    .footer .social-links {
-      margin-top: 25px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 25px;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .footer .social-links a {
-      color: var(--neon-cyan);
-      font-size: 2rem;
-      transition: all 0.4s ease;
+      max-width: 600px;
+      background: var(--glass);
+      backdrop-filter: blur(var(--blur));
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 90;
+      text-align: center;
+      margin-top: 2rem;
       position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      overflow: hidden;
+    }
+
+    .music-player::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--secondary);
+    }
+
+    .music-player h3 {
+      color: var(--highlight);
+      margin-bottom: 0.8rem;
+      font-size: 1.5rem;
+      font-family: 'Orbitron', sans-serif;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+
+    .music-title {
+      font-weight: bold;
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      background: var(--secondary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .music-subtitle {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .play-btn {
+      background: var(--secondary);
+      border: none;
+      border-radius: 50%;
       width: 70px;
       height: 70px;
-      border-radius: 50%;
-      border: 2px solid var(--neon-cyan);
-      box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin: 0 auto;
+      cursor: pointer;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
     }
 
-    .footer .social-links a:hover {
-      color: var(--neon-pink);
-      text-shadow: 0 0 15px var(--neon-pink);
-      border-color: var(--neon-pink);
-      box-shadow: 0 0 25px rgba(255, 46, 99, 0.7);
-      transform: translateY(-5px) scale(1.1);
+    .play-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
     }
 
-    /* Animations */
-    @keyframes shine {
-      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    .play-btn:hover::before {
+      transform: translateX(100%);
     }
 
-    /* Responsive Design */
-    @media (max-width: 1024px) {
-      .features {
-        grid-template-columns: repeat(2, 1fr);
+    .play-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 20, 147, 0.5);
+    }
+
+    .play-btn i {
+      color: white;
+      font-size: 1.8rem;
+    }
+
+    .time-display {
+      margin-top: 1.2rem;
+      font-size: 1rem;
+      color: var(--muted);
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    /* Progress bar */
+    .progress-container {
+      width: 100%;
+      height: 6px;
+      background: var(--glass-dark);
+      border-radius: 3px;
+      margin-top: 1rem;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--secondary);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
+    /* Visualizer */
+    .visualizer {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      height: 60px;
+      margin-top: 1.5rem;
+      gap: 4px;
+    }
+
+    .bar {
+      width: 6px;
+      background: var(--highlight);
+      border-radius: 3px;
+      transition: height 0.2s ease;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .header {
+        padding: 1rem 1.5rem;
       }
       
-      .hero h1 {
-        font-size: 2.8rem;
+      .logo-text {
+        font-size: 1.4rem;
       }
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        padding: 15px;
-        margin-top: 100px;
-        gap: 40px;
+      
+      body {
+        padding: 90px 15px 120px;
       }
-
-      .news-container .title {
-        width: 50%;
-        font-size: 0.9rem;
-        padding: 10px 15px;
+      
+      .input-container {
+        flex-direction: column;
       }
-
-      .news-container .ticker {
-        margin-left: 50%;
+      
+      .input-container button {
+        width: 100%;
       }
-
-      .news-container ul li {
-        font-size: 0.9rem;
-        padding: 0 20px;
+      
+      .music-player {
+        padding: 1.5rem;
       }
-
-      .hero {
-        padding: 40px 20px;
-      }
-
-      .hero h1 {
-        font-size: 2.2rem;
-      }
-
-      .hero p {
-        font-size: 1.1rem;
-      }
-
-      .features {
-        grid-template-columns: 1fr;
-        gap: 25px;
-      }
-
-      .feature-card {
-        padding: 25px;
-      }
-
-      .feature-card h3 {
-        font-size: 1.5rem;
-      }
-
-      .about, .contact {
-        padding: 30px 20px;
-      }
-
-      .about h2, .contact h2 {
-        font-size: 2rem;
-      }
-
-      .about p, .contact p {
-        font-size: 1.1rem;
-      }
-
-      .profile-container {
-        width: 160px;
-        height: 160px;
-      }
-
-      .footer .social-links {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-      }
-
-      .footer .social-links a {
-        width: 60px;
-        height: 60px;
-        font-size: 1.7rem;
+      
+      .box, .music-player {
+        padding: 2rem 1.5rem;
       }
     }
 
     @media (max-width: 480px) {
-      .hero h1 {
+      .logo-text {
+        font-size: 1.2rem;
+      }
+      
+      .box h2 {
         font-size: 1.8rem;
       }
       
-      .profile-container {
-        width: 140px;
-        height: 140px;
-      }
-      
-      .btn {
-        font-size: 1rem;
-        padding: 0.9em 1.2em;
+      .input-container input {
+        padding: 1rem;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Advanced Particle Background -->
+  <!-- Animated Background -->
+  <div class="animated-bg"></div>
+  
+  <!-- Particle Background -->
   <div id="particles-js"></div>
-  <div class="cyber-grid"></div>
 
-  <!-- Enhanced News Ticker -->
-  <div class="news-container">
-    <div class="title">🚀 Arslan-MD Ultra Pro Max</div>
-    <div class="ticker">
-      <ul>
-        <li>Welcome to the Ultimate Session Experience!</li>
-        <li>Get your QR Codes & Pairing Codes Instantly</li>
-        <li>DSF CREW DEVS - Premium Quality</li>
-        <li>Advanced Security & Lightning Fast Performance</li>
-      </ul>
+  <!-- Header with Logo -->
+  <header class="header">
+    <div class="logo-container">
+      <img src="https://files.catbox.moe/a6chsf.jpg" alt="Arslan-MD bot Logo" class="logo-img">
+      <div class="logo-text">ARSLAN-MD ULTRA PRO MAX</div>
+    </div>
+    
+    <!-- Battery Indicator -->
+    <div class="battery-container">
+      <i class="fas fa-battery-full battery-icon" id="battery-icon"></i>
+      <span id="battery-level">--%</span>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <div class="main-content">
+    <!-- Pairing Box -->
+    <div class="box">
+      <h2>ULTRA PAIRING SYSTEM</h2>
+      <h5>ARSLAN-MD BOT PREMIUM</h5>
+      <p>Enter your number without country code for instant pairing</p>
+      
+      <div class="input-container">
+        <input type="number" id="number" placeholder="Enter your number" required>
+        <button id="submit">REQUEST CODE</button>
+      </div>
+      
+      <div id="pair-result">
+        <p id="waiting-message" style="display: none;">Processing your request...</p>
+      </div>
+      
+      <button id="copy-code" onclick="copyCode()">COPY YOUR CODE</button>
+    </div>
+
+    <!-- Music Player -->
+    <div class="music-player">
+      <h3>PREMIUM MUSIC PLAYER</h3>
+      <div class="music-title">ARSALAN-MD THEME</div>
+      <div class="music-subtitle">ULTRA PRO MAX EDITION</div>
+      
+      <button class="play-btn" onclick="togglePlay()">
+        <i class="fas fa-pause" id="play-icon"></i>
+      </button>
+      
+      <div class="time-display" id="time1">0:00</div>
+      
+      <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="visualizer" id="visualizer"></div>
+      
+      <audio id="audio1" src="https://files.catbox.moe/svi5pb.mp3" loop></audio>
     </div>
   </div>
 
-  <div class="container">
-    <!-- 3D Profile Section -->
-    <div class="profile-section">
-      <div class="profile-container">
-        <div class="profile-border"></div>
-        <img src="https://files.catbox.moe/16i1l7.jpg" alt="Arslan-MD" class="profile-image">
-      </div>
-    </div>
-
-    <!-- Hero Section -->
-    <div class="hero">
-      <h1>ULTRA PRO MAX SESSIONS</h1>
-      <p>Experience the next generation of WhatsApp bot sessions. Get your QR or pair code, deploy Arslan-MD with advanced features, and join the elite tech community!</p>
-    </div>
-
-    <!-- Features Section -->
-    <div class="features">
-      <div class="feature-card">
-        <h3><i class="fas fa-qrcode"></i> QR Code Pairing</h3>
-        <p>Advanced QR code system with instant scanning and secure session ID generation. Lightning fast connection with enhanced security protocols.</p>
-        <button onclick="window.location.href='/qr'" class="btn">Get Premium QR</button>
-      </div>
-      <div class="feature-card">
-        <h3><i class="fas fa-key"></i> Pair Code System</h3>
-        <p>Enter your number and receive an encrypted pairing code. No scanning required. Advanced encryption ensures maximum security.</p>
-        <button onclick="window.location.href='/pair'" class="btn">Generate Code</button>
-      </div>
-      <div class="feature-card">
-        <h3><i class="fas fa-rocket"></i> Deploy Arslan-MD</h3>
-        <p>One-click deployment with advanced features. Get your own bot running in minutes with premium functionality and 24/7 support.</p>
-        <button onclick="window.location.href='https://github.com/Arslan-MD/Arslan_MD'" class="btn">Deploy Now</button>
-      </div>
-    </div>
-
-    <!-- About Section -->
-    <div class="about">
-      <h2>About Ultra Pro Max</h2>
-      <p>We're revolutionizing the WhatsApp bot experience with cutting-edge technology. Our Ultra Pro Max version delivers unprecedented performance, security, and features. Join thousands of satisfied users who have upgraded to the premium Arslan-MD experience.</p>
-    </div>
-
-    <!-- Contact Section -->
-    <div class="contact">
-      <h2>Elite Support</h2>
-      <p>Our premium support team is available 24/7 to assist you with any issues. Contact us via SMS, WhatsApp, or Telegram for instant assistance with deployment, troubleshooting, or custom requests.</p>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <div class="footer">
-    <p>© 2023 Arslan Tech | Ultra Pro Max Edition</p>
-    <p>Contact <b>ArslanMD Official</b> for Premium Support</p>
-    <div class="social-links">
-      <a href="https://youtube.com/@arslanmdofficial" target="_blank"><i class="fab fa-youtube"></i></a>
-      <a href="https://www.instagram.com/arslanmdofficial" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://t.me/arslanmd" target="_blank"><i class="fab fa-telegram"></i></a>
-      <a href="t.me/arslanmd" target="_blank"><i class="fab fa-github"></i></a>
-    </div>
-  </div>
-
-  <!-- Particle.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script>
-    // Advanced particle configuration
+    // Initialize particles
     particlesJS('particles-js', {
       particles: {
-        number: { value: 120, density: { enable: true, value_area: 800 } },
-        color: { value: ["#00ffcc", "#ff2e63", "#7209b7", "#4361ee"] },
-        shape: { 
-          type: ["circle", "triangle", "polygon"],
-          polygon: { nb_sides: 6 }
-        },
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: ["#FF4500", "#228B22", "#00CED1", "#FF1493"] },
+        shape: { type: "circle" },
         opacity: { 
-          value: 0.7, 
+          value: 0.5, 
           random: true,
-          anim: { enable: true, speed: 1, opacity_min: 0.2, sync: false }
+          anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false }
         },
         size: { 
           value: 3, 
@@ -722,9 +565,9 @@
         line_linked: {
           enable: true,
           distance: 150,
-          color: "#00ffcc",
-          opacity: 0.4,
-          width: 1.5
+          color: "#00FFFF",
+          opacity: 0.2,
+          width: 1
         },
         move: {
           enable: true,
@@ -734,7 +577,7 @@
           straight: false,
           out_mode: "out",
           bounce: false,
-          attract: { enable: true, rotateX: 600, rotateY: 1200 }
+          attract: { enable: false, rotateX: 600, rotateY: 1200 }
         }
       },
       interactivity: {
@@ -743,60 +586,234 @@
           onhover: { enable: true, mode: "repulse" },
           onclick: { enable: true, mode: "push" },
           resize: true
-        },
-        modes: {
-          repulse: { distance: 100, duration: 0.4 },
-          push: { particles_nb: 4 }
         }
       },
       retina_detect: true
     });
 
-    // Add scroll animations
-    document.addEventListener('DOMContentLoaded', function() {
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      };
+    // DOM elements
+    const pairResult = document.getElementById("pair-result");
+    const submitBtn = document.getElementById("submit");
+    const numberInput = document.getElementById("number");
+    const copyCodeBtn = document.getElementById("copy-code");
+    const waitingMessage = document.getElementById("waiting-message");
+    const batteryLevel = document.getElementById("battery-level");
+    const batteryIcon = document.getElementById("battery-icon");
 
-      const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-          }
-        });
-      }, observerOptions);
+    // Copy code function
+    async function copyCode() {
+      const code = pairResult.innerText.replace('CODE: ', '');
+      try {
+        await navigator.clipboard.writeText(code);
+        copyCodeBtn.innerText = "COPIED!";
+        copyCodeBtn.style.background = "linear-gradient(135deg, #00ff00, #00cc00)";
+        copyCodeBtn.style.color = "#000";
+        setTimeout(() => {
+          copyCodeBtn.innerText = "COPY CODE";
+          copyCodeBtn.style.background = "";
+          copyCodeBtn.style.color = "";
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy: ', err);
+      }
+    }
 
-      // Observe all feature cards and sections
-      document.querySelectorAll('.feature-card, .about, .contact, .hero').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        observer.observe(el);
+    // Submit handler
+    submitBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      
+      if (!numberInput.value) {
+        pairResult.innerHTML = '<p style="color:var(--highlight); font-weight:bold;">Please enter your WhatsApp number</p>';
+        return;
+      }
+      
+      const cleanNumber = numberInput.value.replace(/[^0-9]/g, "");
+      
+      if (cleanNumber.length < 11) {
+        pairResult.innerHTML = '<p style="color:#ff5555; font-weight:bold;">Invalid Number Format</p>';
+        return;
+      }
+      
+      // Format number display
+      let formattedNumber = "";
+      const digits = cleanNumber.split('');
+      digits.forEach((digit, index) => {
+        formattedNumber += digit;
+        if (index === 2 || index === 7) {
+          formattedNumber += " ";
+        }
       });
+      
+      numberInput.type = "text";
+      numberInput.value = "+" + formattedNumber;
+      numberInput.style.color = "var(--highlight)";
+      numberInput.style.fontWeight = "bold";
+      
+      waitingMessage.style.display = "block";
+      pairResult.innerHTML = "";
+      copyCodeBtn.style.display = "none";
+      
+      // Simulate API call with loading animation
+      let dots = 0;
+      const loadingInterval = setInterval(() => {
+        dots = (dots + 1) % 4;
+        waitingMessage.textContent = "Processing your request" + ".".repeat(dots);
+      }, 500);
+      
+      try {
+        // Simulate API delay
+        setTimeout(async () => {
+          try {
+            const { data } = await axios(`/code?number=${cleanNumber}`);
+            const code = data.code || "SERVICE_UNAVAILABLE";
+            
+            clearInterval(loadingInterval);
+            pairResult.innerHTML = `
+              <p style="color:var(--highlight); font-weight:bold; font-size:1.4rem;">
+                CODE: <span style="color:white; text-shadow: 0 0 10px white;">${code}</span>
+              </p>
+            `;
+            copyCodeBtn.style.display = "inline-block";
+            waitingMessage.style.display = "none";
+            
+            // Add success animation
+            pairResult.style.animation = "pulse 0.5s ease";
+            setTimeout(() => {
+              pairResult.style.animation = "";
+            }, 500);
+          } catch (error) {
+            clearInterval(loadingInterval);
+            pairResult.innerHTML = '<p style="color:#ff5555; font-weight:bold;">Error getting pairing code</p>';
+            waitingMessage.style.display = "none";
+          }
+        }, 2000);
+      } catch (error) {
+        clearInterval(loadingInterval);
+        pairResult.innerHTML = '<p style="color:#ff5555; font-weight:bold;">Network Error</p>';
+        waitingMessage.style.display = "none";
+      }
     });
-  </script>
 
-  <!-- GetButton.io widget -->
-  <script type="text/javascript">
-    (function () {
-      var options = {
-        sms: "+923237045919",
-        sms_color: "#129BF4",
-        whatsapp: "+923237045919",
-        telegram: "@arslanmd",
-        call_to_action: "Premium Support",
-        button_color: "#FF318E",
-        position: "left",
-        order: "sms,whatsapp,telegram",
-        pre_filled_message: "Hello Arslan Tech! I need assistance with the Ultra Pro Max version.",
-      };
-      var proto = 'https:', host = "getbutton.io", url = proto + '//static.' + host;
-      var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = url + '/widget-send-button/js/init.js';
-      s.onload = function () { WhWidgetSendButton.init(host, proto, options); };
-      var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
-    })();
+    // Music player controls
+    const audio = document.getElementById('audio1');
+    const playBtn = document.querySelector('.play-btn');
+    const playIcon = document.getElementById('play-icon');
+    const timeDisplay = document.getElementById('time1');
+    const progressBar = document.getElementById('progress-bar');
+    const visualizer = document.getElementById('visualizer');
+
+    // Create visualizer bars
+    for (let i = 0; i < 30; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'bar';
+      bar.style.height = `${Math.random() * 40 + 10}px`;
+      visualizer.appendChild(bar);
+    }
+
+    const bars = document.querySelectorAll('.bar');
+
+    // Auto-play music when page loads (with user interaction)
+    document.addEventListener('click', function initAudio() {
+      audio.play().then(() => {
+        playIcon.classList.replace('fa-play', 'fa-pause');
+        updateTimeDisplay();
+        animateVisualizer();
+      }).catch(error => {
+        console.log('Auto-play prevented:', error);
+      });
+      document.removeEventListener('click', initAudio);
+    }, { once: true });
+
+    function togglePlay() {
+      if (audio.paused) {
+        audio.play();
+        playIcon.classList.replace('fa-play', 'fa-pause');
+        animateVisualizer();
+      } else {
+        audio.pause();
+        playIcon.classList.replace('fa-pause', 'fa-play');
+      }
+    }
+
+    function updateTimeDisplay() {
+      const minutes = Math.floor(audio.currentTime / 60);
+      const seconds = Math.floor(audio.currentTime % 60);
+      timeDisplay.textContent = `${minutes}:${String(seconds).padStart(2, '0')}`;
+      
+      // Update progress bar
+      const progress = (audio.currentTime / audio.duration) * 100;
+      progressBar.style.width = `${progress}%`;
+      
+      if (!audio.paused) {
+        requestAnimationFrame(updateTimeDisplay);
+      }
+    }
+
+    function animateVisualizer() {
+      if (!audio.paused) {
+        bars.forEach(bar => {
+          bar.style.height = `${Math.random() * 50 + 10}px`;
+        });
+        requestAnimationFrame(animateVisualizer);
+      }
+    }
+
+    audio.addEventListener('timeupdate', updateTimeDisplay);
+
+    // Battery status indicator
+    async function updateBattery() {
+      if (navigator.getBattery) {
+        try {
+          const battery = await navigator.getBattery();
+          
+          const updateBatteryUI = () => {
+            const batteryPercent = Math.round(battery.level * 100);
+            batteryLevel.textContent = `${batteryPercent}%`;
+            
+            // Update battery icon based on level
+            let iconClass = 'fa-battery-empty';
+            if (batteryPercent > 80) iconClass = 'fa-battery-full';
+            else if (batteryPercent > 60) iconClass = 'fa-battery-three-quarters';
+            else if (batteryPercent > 40) iconClass = 'fa-battery-half';
+            else if (batteryPercent > 20) iconClass = 'fa-battery-quarter';
+            
+            // Add charging bolt if charging
+            if (battery.charging) {
+              batteryIcon.className = `fas fa-bolt ${iconClass}`;
+              batteryIcon.style.color = '#00ff00';
+              batteryIcon.style.filter = 'drop-shadow(0 0 8px #00ff00)';
+            } else {
+              batteryIcon.className = `fas ${iconClass}`;
+              batteryIcon.style.color = 'var(--highlight)';
+              batteryIcon.style.filter = 'drop-shadow(0 0 5px var(--highlight))';
+            }
+          };
+          
+          battery.addEventListener('levelchange', updateBatteryUI);
+          battery.addEventListener('chargingchange', updateBatteryUI);
+          updateBatteryUI();
+        } catch (error) {
+          console.error('Battery API error:', error);
+        }
+      } else {
+        batteryLevel.textContent = "N/A";
+      }
+    }
+
+    // Initialize
+    window.addEventListener('load', () => {
+      copyCodeBtn.style.display = "none";
+      updateBattery();
+      
+      // Smooth page load
+      document.body.style.opacity = '0';
+      document.body.style.transform = 'translateY(20px)';
+      setTimeout(() => {
+        document.body.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        document.body.style.opacity = '1';
+        document.body.style.transform = 'translateY(0)';
+      }, 100);
+    });
   </script>
 </body>
 </html>
