@@ -1,156 +1,112 @@
-const { malvinid } = require('./id'); 
+const PastebinAPI = require('pastebin-js');
+const pastebin = new PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL');
+const { makeid } = require('./id');
 const express = require('express');
 const fs = require('fs');
 let router = express.Router();
-const pino = require("pino");
-const { Storage } = require("megajs");
-
+const pino = require('pino');
 const {
-    default: Malvin_Tech,
+    default: Mbuvi_Tech,
     useMultiFileAuthState,
     delay,
     makeCacheableSignalKeyStore,
     Browsers
-} = require("@whiskeysockets/baileys");
+} = require('@whiskeysockets/baileys');
 
-// Function to generate a random Mega ID
-function randomMegaId(length = 6, numberLength = 4) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    const number = Math.floor(Math.random() * Math.pow(10, numberLength));
-    return `${result}${number}`;
-}
-
-// Function to upload credentials to Mega
-async function uploadCredsToMega(credsPath) {
-    try {
-        const storage = await new Storage({
-            email: 'nexusxd.bot@gmail.com', // Your Mega A/c Email Here
-            password: 'malvin266' // Your Mega A/c Password Here
-        }).ready;
-        console.log('Mega storage initialized.');
-
-        if (!fs.existsSync(credsPath)) {
-            throw new Error(`File not found: ${credsPath}`);
-        }
-
-        const fileSize = fs.statSync(credsPath).size;
-        const uploadResult = await storage.upload({
-            name: `${randomMegaId()}.json`,
-            size: fileSize
-        }, fs.createReadStream(credsPath)).complete;
-
-        console.log('Session successfully uploaded to Mega.');
-        const fileNode = storage.files[uploadResult.nodeId];
-        const megaUrl = await fileNode.link();
-        console.log(`Session Url: ${megaUrl}`);
-        return megaUrl;
-    } catch (error) {
-        console.error('Error uploading to Mega:', error);
-        throw error;
-    }
-}
-
-// Function to remove a file
 function removeFile(FilePath) {
     if (!fs.existsSync(FilePath)) return false;
     fs.rmSync(FilePath, { recursive: true, force: true });
 }
 
-// Router to handle pairing code generation
 router.get('/', async (req, res) => {
-    const id = malvinid(); 
+    const id = makeid();
     let num = req.query.number;
-
-    async function MALVIN_PAIR_CODE() {
+    
+    async function Mbuvi_MD_PAIR_CODE() {
         const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
-
         try {
-            let Malvin = Malvin_Tech({
+            let Pair_Code_By_Mbuvi_Tech = Mbuvi_Tech({
                 auth: {
                     creds: state.creds,
-                    keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),
+                    keys: makeCacheableSignalKeyStore(state.keys, pino({ level: 'fatal' }).child({ level: 'fatal' })),
                 },
                 printQRInTerminal: false,
-                logger: pino({ level: "fatal" }).child({ level: "fatal" }),
-                browser: Browsers.macOS("Safari")
+                logger: pino({ level: 'fatal' }).child({ level: 'fatal' }),
+                browser: Browsers.macOS('Chrome')
             });
 
-            if (!Malvin.authState.creds.registered) {
+            if (!Pair_Code_By_Mbuvi_Tech.authState.creds.registered) {
                 await delay(1500);
                 num = num.replace(/[^0-9]/g, '');
-                const code = await Malvin.requestPairingCode(num);
-                console.log(`Your Code: ${code}`);
-
+                const code = await Pair_Code_By_Mbuvi_Tech.requestPairingCode(num);
                 if (!res.headersSent) {
-                    res.send({ code });
+                    await res.send({ code });
                 }
             }
 
-            Malvin.ev.on('creds.update', saveCreds);
-            Malvin.ev.on("connection.update", async (s) => {
+            Pair_Code_By_Mbuvi_Tech.ev.on('creds.update', saveCreds);
+            Pair_Code_By_Mbuvi_Tech.ev.on('connection.update', async (s) => {
                 const { connection, lastDisconnect } = s;
-
-                if (connection === "open") {
+                if (connection === 'open') {
                     await delay(5000);
-                    const filePath = __dirname + `/temp/${id}/creds.json`;
+                    let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
+                    await delay(800);
+                    let b64data = Buffer.from(data).toString('base64');
+                    let session = await Pair_Code_By_Mbuvi_Tech.sendMessage(Pair_Code_By_Mbuvi_Tech.user.id, { text: 'ARSLAN-MD~' + b64data });
 
-                    if (!fs.existsSync(filePath)) {
-                        console.error("File not found:", filePath);
-                        return;
-                    }
+                    let Mbuvi_MD_TEXT = `
+        
+╔════════════════════◇
+║『 SESSION CONNECTED』
+║ ✨ Arslan-MD 🔷
+║ ✨ ArslanMD OFFICIAL🔷
+╚════════════════════╝
 
-                    const megaUrl = await uploadCredsToMega(filePath);
-                    const sid = megaUrl.includes("https://mega.nz/file/")
-                        ? 'Digi-MD~' + megaUrl.split("https://mega.nz/file/")[1]
-                        : 'Error: Invalid URL';
 
-                    console.log(`Session ID: ${sid}`);
+---
 
-                    const session = await Malvin.sendMessage(Malvin.user.id, { text: sid });
+╔════════════════════◇
+║『 YOU'VE CHOSEN Arslan-MD 』
+║ -Set the session ID in Heroku:
+║ - SESSION_ID: 
+╚════════════════════╝
+╔════════════════════◇
+║ 『••• _V𝗶𝘀𝗶𝘁 𝗙𝗼𝗿_H𝗲𝗹𝗽 •••』
+║❍ 𝐎𝐰𝐧𝐞𝐫: 923237045919
+║❍ 𝐑𝐞𝐩𝐨: https://github.com/Arslan-MD/Arslan_MD
+║❍ 𝐖𝐚𝐆𝗿𝐨𝐮𝐩: https://chat.whatsapp.com/KRyARlvcUjoIv1CPSSyQA5?mode=wwt
+║❍ 𝐖𝐚𝐂𝐡𝐚𝐧𝐧𝐞𝐥: https://whatsapp.com/channel/0029VarfjW04tRrmwfb8x306
+║
+║ ☬ ☬ ☬ ☬
+╚═════════════════════╝
+𒂀 Enjoy Arslan-MD
 
-                    const MALVIN_TEXT = `
-🎉 *Welcome to Botname!* 🚀  
 
-🔒 *Your Session ID* is ready!  ⚠️ _Keep it private and secure — dont share it with anyone._ 
+---
 
-🔑 *Copy & Paste the SESSION_ID Above*🛠️ Add it to your environment variable: *SESSION_ID*.  
+Don't Forget To Give Star⭐ To My Repo
+______________________________`;
 
-💡 *Whats Next?* 
-1️⃣ Explore all the cool features of botname.
-2️⃣ Stay updated with our latest releases and support.
-3️⃣ Enjoy seamless WhatsApp automation! 🤖  
-
-🔗 *Join Our Support Channel:* 👉 [Click Here to Join](https://whatsapp.com/channel/0029Vac8SosLY6d7CAFndv3Z) 
-
-⭐ *Show Some Love!* Give us a ⭐ on GitHub and support the developer of: 👉 [Malvin King GitHub Repo](https://github.com/kingmalvn/)  
-
-🚀 _Thanks for choosing BOTNAME — Let the automation begin!_ ✨`;
-
-                    await Malvin.sendMessage(Malvin.user.id, { text: MALVIN_TEXT }, { quoted: session });
+                    await Pair_Code_By_Mbuvi_Tech.sendMessage(Pair_Code_By_Mbuvi_Tech.user.id, { text: Toxic_MD_TEXT }, { quoted: session });
 
                     await delay(100);
-                    await Malvin.ws.close();
-                    return removeFile('./temp/' + id);
-                } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode !== 401) {
+                    await Pair_Code_By_Mbuvi_Tech.ws.close();
+                    return await removeFile('./temp/' + id);
+                } else if (connection === 'close' && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     await delay(10000);
-                    MALVIN_PAIR_CODE();
+                    Mbuvi_MD_PAIR_CODE();
                 }
             });
         } catch (err) {
-            console.error("Service Has Been Restarted:", err);
-            removeFile('./temp/' + id);
-
+            console.log('Service restarted');
+            await removeFile('./temp/' + id);
             if (!res.headersSent) {
-                res.send({ code: "Service is Currently Unavailable" });
+                await res.send({ code: 'Service Currently Unavailable' });
             }
         }
     }
-
-    await MALVIN_PAIR_CODE();
+    
+    return await Mbuvi_MD_PAIR_CODE();
 });
 
 module.exports = router;
