@@ -1,27 +1,27 @@
 {
-  "description": "session name",
-  "main": "./malvin.js",
-  "type": "commonjs",
-  "engines": {
-    "node": ">=20.0.0"
-  },
+  "name": "web-pair",
+  "version": "0.0.1",
+  "description": "A multi functional whatsapp bot Web paircode.",
+  "main": "malvin.js",
   "scripts": {
-    "start": "pm2 start malvin.js --deep-monitoring --attach --name malvin",
-    "stop": "pm2 stop malvin",
-    "restart": "pm2 restart malvin"
+    "start": "pm2 start arslan.js --deep-monitoring --attach --name Arslan-MD",
+    "stop": "pm2 stop Arslan-MD",
+    "restart": "pm2 restart Arslan-MD"
   },
-  "author": "Malvin Tech",
-  "license": "GPL-3.0 license",
   "dependencies": {
-    "@whiskeysockets/baileys": "^6.6.7",
+    "@whiskeysockets/baileys": "npm:wileys",              
+    "@adiwajshing/keyed-db": "^0.2.4",
+    "qrcode": "^1.5.3",
     "awesome-phonenumber": "^2.64.0",
+    "pino": "^8.1.0",
+    "phone": "3.1.30",
     "body-parser": "^1.20.1",
     "express": "^4.18.1",
-    "megajs": "^1.1.0",
     "path": "^0.12.7",
-    "phone": "3.1.30",
-    "pino": "^8.1.0",
-    "pm2": "^5.2.0",
-    "qrcode": "^1.5.3"
+    "pastebin-js": "latest",
+    "megajs": "1.1.7",
+    "pm2": "^6.0.6",
+    "jimp": "^0.16.1",
+    "async-mutex": "0.4.1"
   }
 }
